@@ -40,8 +40,7 @@ async def sedlyfsir(event):
             f"**Hai. {firstname} , I am {bot_username}.** \n"
             f"`I am A ChatBot To Talk With My` [Master](tg://user?id={oknoob}) \n"
             f"**Send Me And I Will Send To Moi Master.** \n"
-            f"**Thank You**"
-        )
+            f"**Thank You**")
     else:
         text_me = f"{oksir}"
     formaster = "Sir. How Can I Help You?"
@@ -60,8 +59,7 @@ async def sedlyfsir(event):
         elif not already_added(event.sender_id):
             add_usersid_in_db(event.sender_id)
             await chatbot.send_message(
-                Config.DUMB_CHAT, f"NEW USER ! \nUser ID : `{event.chat_id}`"
-            )
+                Config.DUMB_CHAT, f"NEW USER ! \nUser ID : `{event.chat_id}`")
         await chatbot.send_file(
             event.chat_id,
             file=Config.CUSTOM_IMG,
