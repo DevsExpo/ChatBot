@@ -1,4 +1,3 @@
-
 #    Copyright (C) Midhun KM 2020
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published by
@@ -13,7 +12,11 @@
 #    along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from chatrobot.plugins.sql.users_sql import add_me_in_db, his_userid
-from chatrobot.plugins.sql.checkuser_sql import add_usersid_in_db, already_added, get_all_users
+from chatrobot.plugins.sql.checkuser_sql import (
+    add_usersid_in_db,
+    already_added,
+    get_all_users,
+)
 from telethon import custom, events, Button
 import re
 from telethon.tl.functions.users import GetFullUserRequest
@@ -31,29 +34,40 @@ async def sedlyfsir(event):
     oknoob = Config.OWNER_ID
     oksir = Config.CUSTOM_START
     if Config.CUSTOM_START is None:
-        text_me = (f"**Hai. {firstname} , I am {bot_username}.** \n"
-                   f"`I am A ChatBot To Talk With My` [Master](tg://user?id={oknoob}) \n"
-                   f"**Send Me And I Will Send To Moi Master.** \n"
-                   f"**Thank You**")
+        text_me = (
+            f"**Hai. {firstname} , I am {bot_username}.** \n"
+            f"`I am A ChatBot To Talk With My` [Master](tg://user?id={oknoob}) \n"
+            f"**Send Me And I Will Send To Moi Master.** \n"
+            f"**Thank You**"
+        )
     else:
         text_me = f"{oksir}"
     formaster = "Sir. How Can I Help You?"
     if event.sender_id == Config.OWNER_ID:
-        ok = await chatbot.send_message(event.chat_id, message=formaster, buttons=[
-            [custom.Button.inline("Commands For Owner.", data="cmds")],
-            [custom.Button.inline("Close 🔐", data="close ")],
-        ]
+        ok = await chatbot.send_message(
+            event.chat_id,
+            message=formaster,
+            buttons=[
+                [custom.Button.inline("Commands For Owner.", data="cmds")],
+                [custom.Button.inline("Close 🔐", data="close ")],
+            ],
         )
     else:
         if already_added(event.sender_id):
             pass
         elif not already_added(event.sender_id):
             add_usersid_in_db(event.sender_id)
-            await chatbot.send_message(Config.DUMB_CHAT, f"NEW USER ! \nUser ID : `{event.chat_id}`")
-        await chatbot.send_file(event.chat_id, file=Config.CUSTOM_IMG, caption=text_me, buttons=[
-            [custom.Button.inline("Tamil Songs Hi-Res", data="mewant")],
-            [custom.Button.inline("Close 🔐", data="close ")],
-        ]
+            await chatbot.send_message(
+                Config.DUMB_CHAT, f"NEW USER ! \nUser ID : `{event.chat_id}`"
+            )
+        await chatbot.send_file(
+            event.chat_id,
+            file=Config.CUSTOM_IMG,
+            caption=text_me,
+            buttons=[
+                [custom.Button.inline("Tamil Songs Hi-Res", data="mewant")],
+                [custom.Button.inline("Close 🔐", data="close ")],
+            ],
         )
 
 
@@ -76,5 +90,5 @@ async def help(event):
 
 @chatbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"cmds")))
 async def help(event):
-    msg = (f"<b><u> Commands </b></u> \n<code>➤ /start - Starts Bot \n➤ /block - Reply To User To Block Him \n➤ /unblock - Unblocks A User \n➤ /alive - Am I Alive? \n➤ /broadcast - Broadcasts A Message \n➤ /stats - Show Bot Stats </code>")
+    msg = f"<b><u> Commands </b></u> \n<code>➤ /start - Starts Bot \n➤ /block - Reply To User To Block Him \n➤ /unblock - Unblocks A User \n➤ /alive - Am I Alive? \n➤ /broadcast - Broadcasts A Message \n➤ /stats - Show Bot Stats </code>"
     await event.edit(msg, parse_mode="HTML")
